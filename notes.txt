@@ -1,0 +1,32 @@
+python
+beautifulsoup
+
+BACKEND
+
+function 1 (input : URL)
+collect all the content of the page and store it in a string: 
+import requests
+getpage= requests.get('http://www.learningaboutelectronics.com')
+getpage.text
+
+function 2 (input : Content of the page)
+clean the content of the page (so the content of the string)
+to get only sentences and words
+
+function 3 (input : clean content, number of characters)
+take the clean content and find a sentence that match the number of
+characters (without the spaces). then return the sentence.
+
+function 4 (input : sentence)
+it will add some numbers, special characters or change a few things
+in the appearance of your password according to some rules
+
+function A (number of digits)
+generate a code of digits
+
+FRONTEND
+
+main function to display the application on the terminal
+
+Remerciements
+https://matix.io/extract-text-from-webpage-using-beautifulsoup-and-python/
