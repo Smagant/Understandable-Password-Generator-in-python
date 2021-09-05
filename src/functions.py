@@ -13,9 +13,9 @@ def passwordGenerator(url, numCharacters=25, digits=False, numbers=0, punctuatio
             print("The input numbers is incorrect")
         return password
     else:
-        rawContent = getContent(url)
-        cleanCt = cleanContent(rawContent)
-        sentences = findSentences(cleanCt, numCharacters)
+        raw = getContent(url)
+        clean = cleanContent(raw)
+        sentences = findSentences(clean, numCharacters)
         passwords = createPassword(sentences, numbers, punctuation)
         return passwords
 
@@ -28,11 +28,11 @@ def getContent(url):
 
 #Clean the content of the page to take only the text.
 #Then store the clean content into an array of sentences.
-def cleanContent(rawContent):
+def cleanContent(raw):
     digits = ['\n', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
     #remove the html and css tags
-    soup = BeautifulSoup(rawContent, "html.parser")
+    soup = BeautifulSoup(raw, "html.parser")
     for data in soup(['style', 'script']):
         data.decompose()
     output = ' '.join(soup.stripped_strings)
@@ -51,7 +51,8 @@ def cleanContent(rawContent):
     for e in output:
         if e.isupper():
             sentence = ''
-            sentence += e
+            lower = e.lower()
+            sentence += lower
         elif e == '.':
             array.append(sentence)
             sentence = ''
@@ -62,9 +63,9 @@ def cleanContent(rawContent):
 
 
 #Filter the array of sentences based on the number of characters we want.
-def findSentences(cleanContent, numCharacters):
+def findSentences(clean, numCharacters):
     array = []
-    for e in cleanContent:
+    for e in clean:
         sentence = e.replace(" ", "")
         if len(sentence)>= numCharacters:
             array.append(sentence)
