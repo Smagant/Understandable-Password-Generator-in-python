@@ -6,18 +6,12 @@ import string
 
 
 #Main function of the passwordGenerator
-def passwordGenerator(url, numCharacters=25, digits=False, numbers=0, punctuation=False):
-    if digits:
-        password = digitsPassword(numbers)
-        if password == False:
-            print("The input numbers is incorrect")
-        return password
-    else:
-        raw = getContent(url)
-        clean = cleanContent(raw)
-        sentences = findSentences(clean, numCharacters)
-        passwords = createPassword(sentences, numbers, punctuation)
-        return passwords
+def passwordGenerator(url, numCharacters=25, numbers=0, punctuation=False):
+    raw = getContent(url)
+    clean = cleanContent(raw)
+    sentences = findSentences(clean, numCharacters)
+    passwords = createPassword(sentences, numbers, punctuation)
+    return passwords
 
 
 #Extract all the content of a webpage.
@@ -29,7 +23,8 @@ def getContent(url):
 #Clean the content of the page to take only the text.
 #Then store the clean content into an array of sentences.
 def cleanContent(raw):
-    digits = ['\n', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    global sentence
+    digits = ['–','’','\n', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
     #remove the html and css tags
     soup = BeautifulSoup(raw, "html.parser")
@@ -57,7 +52,10 @@ def cleanContent(raw):
             array.append(sentence)
             sentence = ''
         else:
-            sentence += e
+            try:
+                sentence += e
+            except:
+                continue
 
     return array
 
@@ -67,7 +65,7 @@ def findSentences(clean, numCharacters):
     array = []
     for e in clean:
         sentence = e.replace(" ", "")
-        if len(sentence)>= numCharacters:
+        if (len(sentence)>= numCharacters) and (len(sentence)<=numCharacters + 10):
             array.append(sentence)
         else:
             continue
