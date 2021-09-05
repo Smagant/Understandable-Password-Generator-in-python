@@ -1,11 +1,33 @@
 import requests as r
 from bs4 import BeautifulSoup
+from random import randint
+import random
+import string
 
+
+#Main function of the passwordGenerator
+def passwordGenerator(url, numCharacters=25, digits=False, numbers=0, punctuation=False):
+    if digits:
+        password = digitsPassword(numbers)
+        if password == False:
+            print("The input numbers is incorrect")
+        return password
+    else:
+        rawContent = getContent(url)
+        cleanCt = cleanContent(rawContent)
+        sentences = findSentences(cleanCt, numCharacters)
+        passwords = createPassword(sentences, numbers, punctuation)
+        return passwords
+
+
+#Extract all the content of a webpage.
 def getContent(url):
-    #collect all the content
     response = r.get(url)
     return response.content
 
+
+#Clean the content of the page to take only the text.
+#Then store the clean content into an array of sentences.
 def cleanContent(rawContent):
     html_page = rawContent
     soup = BeautifulSoup(html_page, 'html.parser')
@@ -41,6 +63,8 @@ def cleanContent(rawContent):
 
     return array
 
+
+#Filter the array of sentences based on the number of characters we want.
 def findSentences(cleanContent, numCharacters):
     array = []
     for e in cleanContent:
@@ -51,21 +75,31 @@ def findSentences(cleanContent, numCharacters):
             continue
     return array
 
-def createPassword(sentence, numbers, speCharacters):
-    #code
-    pass
 
-def passwordGenerator(url, digits, numbers, speCharacters):
-    if digits:
-        password = fs.digitsPassword(digits)
-        return password
+#Create an array containing the final passwords
+def createPassword(sentences, numbers, punctuation):
+    passwords = []
+    for sentence in sentences:
+        if numbers > 0:
+            digits = digitsPassword(numbers)
+        else:
+            digits = ""
+
+        if punctuation:
+            punc = random.choice(string.punctuation)
+        else:
+            punc = ""
+        password = sentence + str(digits) + punc
+        passwords.append(password)
+
+    return passwords
+
+
+#Create a code of digits
+def digitsPassword(n):
+    if n > 0:
+        range_start = 10**(n-1)
+        range_end = (10**n)-1
+        return randint(range_start, range_end)
     else:
-        rawContent = fs.getContent(url)
-        cleanContent = fs.cleanContent(rawContent)
-        sentences = fs.findSentences(cleanContent)
-        password = createPassword(sentences, numbers, speCharacters)
-        return password
-
-def digitsPassword(numDigits):
-    #code
-    pass
+        return False
