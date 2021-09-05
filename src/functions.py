@@ -25,13 +25,25 @@ def getContent(url):
     response = r.get(url)
     return response.content
 
+def remove_tags(html):
+    # parse html content
+    soup = BeautifulSoup(html, "html.parser")
+    for data in soup(['style', 'script']):
+        # Remove tags
+        data.decompose()
+    # return data by retrieving the tag content
+    return ' '.join(soup.stripped_strings)
+
 
 #Clean the content of the page to take only the text.
 #Then store the clean content into an array of sentences.
 def cleanContent(rawContent):
+    output = remove_tags(rawContent)
+    """
     html_page = rawContent
     soup = BeautifulSoup(html_page, 'html.parser')
     text = soup.find_all(text=True)
+    
     output = ''
     blacklist = [
         '[document]',
@@ -45,11 +57,16 @@ def cleanContent(rawContent):
     for t in text:
         if t.parent.name not in blacklist:
             output += '{} '.format(t)
-    
-    output = output.replace("\n", "")
-    output = output.replace(",", "")
-    output = output.replace("'", "")
+    """
+    digits = ['\n', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
+    for e in digits:
+        output = output.replace(e, "")
+    
+    for e in string.punctuation:
+        if e != '.':
+            output = output.replace(e, "")
+    
     array = []
     for e in output:
         if e.isupper():
