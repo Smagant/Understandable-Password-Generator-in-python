@@ -1,48 +1,54 @@
 import functions as fs
 
-
 def continueOP():
-    answer = input("Do you want to continue ? (y or n)")
+    answer = input("\nDo you want to continue ? (y or n) ")
     if answer == "y":
-        return continue
+        return True
     elif answer == "n":
-        return break
+        return False
     else:
-        print("Sorry I don't understand your answer... Please try again")
+        print("\nSorry I don't understand your answer... Please try again")
         continueOP()
 
-def digits():
-    print("How many digits do you want in your code ?")
-    n = int(input("Enter the number of digits:"))
+def digiCode():
+    print("\nHow many digits do you want in your code ?")
+    n = int(input("Enter the number of digits: "))
     password = fs.digitsPassword(n)
-    print(password)
+    print("\n", password)
 
-def Password():
-    url = input("Enter the url : ")
-    numChar = int(input("Enter the minimum number of characters for your password : "))
-    numbers = int(input("How many numbers do you want in your password ? : "))
-    punc = input("Do you want to add a special character ? (y or n) : ")
+def password():
+    url = input("\nEnter the url: ")
+    numChar = int(input("\nEnter the minimum number of characters for your password: "))
+    numbers = int(input("\nHow many numbers do you want in your password ?: "))
+    punc = input("\nDo you want to add a special character ? (y or n): ")
     if punc == 'y':
         punc = True
     elif punc == 'n':
         punc = False
     passwords = fs.passwordGenerator(url, numChar, numbers, punc)
-`   i = 0
+    print("\nList of passwords:")
+    i = 0
     while i < len(passwords):
         print(passwords[i])
         i += 1
     
 def main():
     while(1):
-        digits = input("Do you want a code of digits ? (y or n) : ")
-
+        digits = input("\nDo you want a code of digits ? (y or n): ")
         if digits == 'y':
-            digits()
-            continueOP()
+            digiCode()
+            if continueOP():
+                continue
+            else:
+                break
 
         elif digits == 'n':
-            Password()
-            continueOP()
+            password()
+            if continueOP():
+                continue
+            else:
+                break
 
 
-
+if __name__ == "__main__":
+    main()
