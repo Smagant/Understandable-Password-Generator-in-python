@@ -1,5 +1,22 @@
 import functions as fs
 
+def main():
+    while(1):
+        digits = input("\nDo you want a code of digits ? (y or n): ")
+        if digits == 'y':
+            digiCode()
+            if continueOP():
+                continue
+            else:
+                break
+
+        elif digits == 'n':
+            password()
+            if continueOP():
+                continue
+            else:
+                break
+
 def continueOP():
     answer = input("\nDo you want to continue ? (y or n) ")
     if answer == "y":
@@ -32,23 +49,6 @@ def password():
         print(passwords[i])
         i += 1
     
-def main():
-    while(1):
-        digits = input("\nDo you want a code of digits ? (y or n): ")
-        if digits == 'y':
-            digiCode()
-            if continueOP():
-                continue
-            else:
-                break
-
-        elif digits == 'n':
-            password()
-            if continueOP():
-                continue
-            else:
-                break
-
 
 if __name__ == "__main__":
     main()
